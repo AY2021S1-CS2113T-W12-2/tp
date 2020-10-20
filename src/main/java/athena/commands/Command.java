@@ -24,7 +24,7 @@ public abstract class Command {
      * @param ui       Ui
      * @throws CommandException Exception thrown when there is an error in user command
      */
-    public abstract void execute(TaskList taskList, Ui ui) throws CommandException;
+    public abstract void execute(TaskList taskList, Ui ui) throws CommandException, Exception;
 
     /**
      * Check if the command is exit.

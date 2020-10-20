@@ -5,8 +5,6 @@ import athena.task.taskfilter.FlexibleTimeFilter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class TimeAllocator {
     ArrayList<Task> flexibleTask;
@@ -27,6 +25,18 @@ public class TimeAllocator {
         this.fixedTask = tasks.getFilteredList(new FlexibleTimeFilter(false)).getTasks();
 
     }
+
+    public TimeAllocator() {
+
+    }
+
+    public void runAllocator() {
+        fixedTask.sort(new SortByStartTime());
+        System.out.print(fixedTask);
+    }
+
+
+}
 
 // Psuedocode for allocation runs might refactor into a command class
 //    public void runAllocate() {
@@ -54,4 +64,4 @@ public class TimeAllocator {
 //    }
 
 
-}
+

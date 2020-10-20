@@ -57,17 +57,22 @@ public class Time implements Comparable<Time> {
         return isFlexible;
     }
 
-    @Override
-    public int compareTo(Time o) {
-        return 0;
+    public String getStartTime() {
+        return startTime;
     }
 
+    public String getDuration() {
+        return duration;
+    }
 
-    //    @Override
-    //    public int compareTo(Time o) {
-    //        if(this.startTime>o.startTime){
-    //            return 1;
-    //        }
-    //        return 0;
-    //    }
+    @Override
+    public int compareTo(Time o) {
+        if (Integer.parseInt(this.startTime) > Integer.parseInt(o.startTime)) {
+            return 1;
+        } else if (Integer.parseInt(this.startTime) == Integer.parseInt(o.startTime)) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
 }

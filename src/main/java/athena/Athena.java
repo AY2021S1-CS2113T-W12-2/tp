@@ -2,6 +2,8 @@ package athena;
 
 import athena.commands.Command;
 import athena.exceptions.CommandException;
+import athena.task.Time;
+
 import java.util.Scanner;
 
 /**
@@ -12,6 +14,7 @@ public class Athena {
     private Parser parser;
     private Storage storage;
     private TaskList taskList;
+    private TimeAllocator allocator;
 
     /**
      * Creates an ATHENA object.
@@ -49,6 +52,8 @@ public class Athena {
                 isExit = userCommand.getIsExit();
             } catch (CommandException e) {
                 e.printErrorMessage();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             continue;
         }

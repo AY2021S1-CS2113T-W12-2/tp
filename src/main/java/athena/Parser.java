@@ -1,13 +1,6 @@
 package athena;
 
-import athena.commands.Command;
-import athena.commands.AddCommand;
-import athena.commands.DeleteCommand;
-import athena.commands.DoneCommand;
-import athena.commands.EditCommand;
-import athena.commands.ExitCommand;
-import athena.commands.HelpCommand;
-import athena.commands.ListCommand;
+import athena.commands.*;
 import athena.exceptions.CommandException;
 import athena.exceptions.DeleteNoIndexException;
 import athena.exceptions.DoneNoIndexException;
@@ -235,6 +228,14 @@ public class Parser {
                 return new DeleteCommand(taskIndex);
             } catch (NumberFormatException e) {
                 throw new DeleteNoIndexException();
+            }
+        }
+
+        case "sort": {
+            try{
+                return new AllocateCommand();
+            } catch (Exception e) {
+                
             }
         }
 
