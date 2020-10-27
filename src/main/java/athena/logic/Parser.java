@@ -1,8 +1,16 @@
 package athena.logic;
 
-import athena.Forecast;
 import athena.Importance;
 import athena.TaskList;
+import athena.exceptions.CommandException;
+import athena.exceptions.DeleteNoIndexException;
+import athena.exceptions.DoneNoIndexException;
+import athena.exceptions.EditNoIndexException;
+import athena.exceptions.InvalidCommandException;
+import athena.exceptions.InvalidForecastException;
+import athena.exceptions.InvalidImportanceException;
+import athena.exceptions.TaskNotFoundException;
+import athena.exceptions.ViewNoIndexException;
 import athena.logic.commands.AddCommand;
 import athena.logic.commands.Command;
 import athena.logic.commands.DeleteCommand;
@@ -12,13 +20,8 @@ import athena.logic.commands.ExitCommand;
 import athena.logic.commands.HelpCommand;
 import athena.logic.commands.ListCommand;
 import athena.logic.commands.ViewCommand;
-import athena.exceptions.CommandException;
-import athena.exceptions.DeleteNoIndexException;
-import athena.exceptions.DoneNoIndexException;
-import athena.exceptions.EditNoIndexException;
-import athena.exceptions.InvalidCommandException;
-import athena.exceptions.TaskNotFoundException;
-import athena.exceptions.ViewNoIndexException;
+import athena.task.taskfilter.FilterCalculator;
+
 import java.util.HashMap;
 
 /**
@@ -174,13 +177,14 @@ public class Parser {
      * @return command object
      */
     public static Command parseListCommand(String taskInfo, int importancePos, int forecastPos)
-            throws InvalidCommandException {
+            throws InvalidCommandException, InvalidForecastException, InvalidImportanceException {
         String importanceDefault = "ALL";
         String forecastDefault = "WEEK";
-        String importance = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
-        String forecast = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, forecastDefault);
-        Command command = new ListCommand(Importance.valueOf(importance.toUpperCase()),
-                Forecast.valueOf(forecast.toUpperCase()));
+        String importanceString = getParameterDesc(taskInfo, IMPORTANCE_DELIMITER, importancePos, importanceDefault);
+        String forecastString = getParameterDesc(taskInfo, FORECAST_DELIMITER, forecastPos, forecastDefault);
+        FilterCalculator filterCalculator = new FilterCalculator(importanceString, forecastString);
+        Command command = new ListCommand(filterCalculator.getImportance(),
+                filterCalculator.getForecast());
         return command;
     }
 

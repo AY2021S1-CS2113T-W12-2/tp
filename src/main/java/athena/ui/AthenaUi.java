@@ -10,7 +10,6 @@ import org.fusesource.jansi.AnsiConsole;
  */
 public class AthenaUi implements Ui {
     private ColorText colorText;
-    private static final String ANSI_RESET = "\u001B[0m";
 
     public AthenaUi() {
         AnsiConsole.systemInstall();
@@ -50,10 +49,17 @@ public class AthenaUi implements Ui {
      */
     public void printTaskAdded(String taskName, String taskStartTime, String taskDuration, String taskDeadline,
                                String taskRecurrence, String taskImportance, String taskNotes) {
-        System.out.println("You've successfully added " + colorText.toBlue(taskName) + " to your list!\n"
-                + "It will start at " + colorText.toBlue(taskStartTime) + " and finish on "
-                + colorText.toBlue(taskDeadline) + ".\n"
-                + "You should spend a total of " + colorText.toBlue(taskDuration) + " hour(s) on it.");
+        System.out.print("\nYou've successfully added " + colorText.toBlue(taskName) + " to your list!\n"
+                + "It will start at " + colorText.toBlue(taskStartTime));
+
+        if (taskDeadline.toLowerCase().equals("no deadline")) {
+            System.out.println(" and has no deadline.\n");
+        } else {
+            System.out.println(" and finish on " + colorText.toBlue(taskDeadline) + ".\n");
+        }
+
+        System.out.println("You should spend a total of " + colorText.toBlue(taskDuration) + " hour(s) on it.");
+
         if (taskRecurrence.toLowerCase().equals("today")) {
             System.out.print("It is set to happen " + colorText.toBlue(taskRecurrence));
         } else if (taskRecurrence.contains("-")) {
@@ -61,6 +67,7 @@ public class AthenaUi implements Ui {
         } else {
             System.out.print("It is set to happen every " + colorText.toBlue(taskRecurrence));
         }
+
         System.out.println(" and has an importance of " + colorText.toBlue(taskImportance) + ".\n"
                 + "Additionally, you've also added these notes!\n" + colorText.toBlue(taskNotes) + ".\n"
                 + "Looks like another mission to complete! Let's do it!\n");
@@ -72,7 +79,7 @@ public class AthenaUi implements Ui {
      * @param task The task that the user marked as done
      */
     public void printTaskDone(Task task) {
-        System.out.println("A job well done! I've slayed the-- I mean, marked the task "
+        System.out.println("\nA job well done! I've slayed the-- I mean, marked the task "
                 + colorText.toBlue(task.getName()) + " as complete!\n");
     }
 
@@ -92,8 +99,8 @@ public class AthenaUi implements Ui {
     public void printTaskEdited(int taskIndex, String taskName, String taskStartTime, String taskDuration,
                                 String taskDeadline, String taskRecurrence, Importance taskImportance,
                                 String taskNotes) {
-        System.out.println("You've changed the details of task number " + colorText.toBlue(Integer.toString(taskIndex))
-                + ": " + colorText.toBlue(taskName) + "!\n"
+        System.out.println("\nYou've changed the details of task number "
+                + colorText.toBlue(Integer.toString(taskIndex)) + ": " + colorText.toBlue(taskName) + "!\n"
                 + "Here are the new details of your task!\n"
                 + "Start Time: " + colorText.toBlue(taskStartTime) + "\n"
                 + "Duration: " + colorText.toBlue(taskDuration) + "\n"
@@ -110,7 +117,7 @@ public class AthenaUi implements Ui {
      * @param task The task that the user has deleted.
      */
     public void printTaskDeleted(Task task, String taskRestore) {
-        System.out.println("Are we pretending the task " + colorText.toBlue(task.getName())
+        System.out.println("\nAre we pretending the task " + colorText.toBlue(task.getName())
                 + " never existed? Very well...\n");
         System.out.println("We both know the human propensity to make mistakes, if you want it back just type:\n"
                 + colorText.toBlue(taskRestore) + "\nYou can thank me later!\n");
@@ -122,44 +129,47 @@ public class AthenaUi implements Ui {
      * @param taskDetails The task that the user wants to view.
      */
     public void printTaskDetails(String taskDetails) {
-        System.out.println("Here are the details of your task: " + colorText.toBlue(taskDetails));
+        System.out.println("\nHere are the details of your task: " + colorText.toBlue(taskDetails));
     }
 
     /**
      * Prints out a help menu of all available tasks that ATHENA is able to do.
      */
     public void printHelp() {
-        System.out.println(colorText.toYellow("Not sure of what I'm capable of doing? "
+        System.out.println("\nNot sure of what I'm capable of doing? "
                 + "Well here's a list just for you!\n\n"
-                + "To add a task (parameters in square brackets are optional fields):\n"
-                + "add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n"
+                + "To " + colorText.toPurple("add a task")
+                + " (parameters in square brackets are optional fields):\n"
+                + colorText.toYellow("add n/NAME [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] "
+                + "[i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n")
                 + "e.g. add n/Assignment1 t/1100 d/16/09 D/2 r/Monday i/high a/Refer to lecture notes\n\n"
-                + "To list your current tasks:\n"
-                + "list f/FORECAST i/IMPORTANCE\n"
+                + "To " + colorText.toPurple("list your current tasks:\n")
+                + colorText.toYellow("list f/FORECAST i/IMPORTANCE\n")
                 + "e.g. list f/WEEK i/medium\n\n"
-                + "To mark a task as done:\n"
-                + "done INDEX\n"
+                + "To " + colorText.toPurple("mark a task as done:\n")
+                + colorText.toYellow("done INDEX\n")
                 + "e.g. done 2\n\n"
-                + "To edit a task (parameters in square brackets are optional fields):\n"
-                + "edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] [r/RECURRENCE] [i/IMPORTANCE]"
-                + "[a/ADDITIONAL-NOTES]\n"
+                + "To " + colorText.toPurple("edit a task")
+                + " (parameters in square brackets are optional fields):\n"
+                + colorText.toYellow("edit INDEX [n/NAME] [t/TIME] [d/DURATION] [D/DEADLINE] "
+                + "[r/RECURRENCE] [i/IMPORTANCE] [a/ADDITIONAL-NOTES]\n")
                 + "e.g. edit 2 n/Assignment1 t/1100 d/16/09 D/2 r/Monday i/high a/Refer to lecture notes\n\n"
-                + "To delete a task:\n"
-                + "delete INDEX\n"
+                + "To " + colorText.toPurple("delete a task:\n")
+                + colorText.toYellow("delete INDEX\n")
                 + "e.g. delete 2\n\n"
-                + "To view a task:\n"
-                + "view INDEX\n"
+                + "To " + colorText.toPurple("view a task:\n")
+                + colorText.toYellow("view INDEX\n")
                 + "e.g. view 2\n\n"
-                + "To say farewell to me, ATHENA:\n"
-                + "bye\n"
-                + "But why would you want to leave me anyways? Hmph.\n"));
+                + "To " + colorText.toPurple("say farewell to me, ATHENA:\n")
+                + colorText.toYellow("exit\n")
+                + "But why would you want to leave me anyways? Hmph.\n");
     }
 
     /**
      * Prints a message when there is an error with a task in the storage file.
      */
     public void printInvalidTask() {
-        System.out.println(colorText.toRed("One of the tasks in the archives seems to be cursed, "
+        System.out.println(colorText.toRed("\nOne of the tasks in the archives seems to be cursed, "
                 + "I have disposed of it!\n"));
     }
 
@@ -169,15 +179,15 @@ public class AthenaUi implements Ui {
      * @param taskNumber Task number given by the user
      */
     public void printTaskNotFound(int taskNumber) {
-        System.out.println(colorText.toRed("The task with the label ")
-                + colorText.toRed(Integer.toString(taskNumber)) + colorText.toRed(" cannot be found\n"));
+        System.out.println(colorText.toRed("\nThe task with the label ")
+                + colorText.toRed(Integer.toString(taskNumber)) + colorText.toRed(" cannot be found.\n"));
     }
 
     /**
      * Prints a message telling user they did not specify either the name or start time of the task.
      */
     public void printAddMissingRequiredParametersException() {
-        System.out.println(colorText.toRed("You haven't specified the name or the start time of the task! "
+        System.out.println(colorText.toRed("\nYou haven't specified the name or the start time of the task! "
                 + "How can we go on a conquest if we don't know what to slay and what time to start?\n"));
     }
 
@@ -185,7 +195,7 @@ public class AthenaUi implements Ui {
      * Prints a message telling user they did not provide a valid index for the delete command.
      */
     public void printDeleteInvalidIndexException() {
-        System.out.println(colorText.toRed("Hmm...not sure what you're trying to delete, "
+        System.out.println(colorText.toRed("\nHmm...not sure what you're trying to delete, "
                 + "but there is no task at that index.\n"));
     }
 
@@ -193,7 +203,7 @@ public class AthenaUi implements Ui {
      * Prints a message telling user they did not provide an index for the delete command.
      */
     public void printDeleteNoIndexException() {
-        System.out.println(colorText.toRed("So you're trying to delete a task...but which one exactly? "
+        System.out.println(colorText.toRed("\nSo you're trying to delete a task...but which one exactly? "
                 + "You haven't specified.\n"));
     }
 
@@ -201,7 +211,7 @@ public class AthenaUi implements Ui {
      * Prints a message telling user they did not provide a valid index for the done command.
      */
     public void printDoneInvalidIndexException() {
-        System.out.println(colorText.toRed("I'm not sure if you're trying to smoke me or smoke yourself, "
+        System.out.println(colorText.toRed("\nI'm not sure if you're trying to smoke me or smoke yourself, "
                 + "but there is no task at that index. "
                 + "You should enter a task index that contains a task.\n"));
     }
@@ -210,7 +220,7 @@ public class AthenaUi implements Ui {
      * Prints a message telling user they did not provide an index for the done command.
      */
     public void printDoneNoIndexException() {
-        System.out.println(colorText.toRed("I know you're really eager, but you need to specify "
+        System.out.println(colorText.toRed("\nI know you're really eager, but you need to specify "
                 + "a task to mark as done!\n"));
     }
 
@@ -218,7 +228,7 @@ public class AthenaUi implements Ui {
      * Prints a message telling user they did not provide a valid index for the view command.
      */
     public void printViewInvalidIndexException() {
-        System.out.println(colorText.toRed("I'm not sure if you're trying to smoke me or "
+        System.out.println(colorText.toRed("\nI'm not sure if you're trying to smoke me or "
                 + "smoke yourself, but there is no task at that index. You should enter a task index that "
                 + "contains a task.\n"));
     }
@@ -227,7 +237,7 @@ public class AthenaUi implements Ui {
      * Prints a message telling user they did not provide an index for the view command.
      */
     public void printViewNoIndexException() {
-        System.out.println(colorText.toRed("I know you're really eager, but you need to specify "
+        System.out.println(colorText.toRed("\nI know you're really eager, but you need to specify "
                 + "a task to view!\n"));
     }
 
@@ -235,7 +245,7 @@ public class AthenaUi implements Ui {
      * Prints a message telling user they did not provide an index for the edit command.
      */
     public void printEditNoIndexException() {
-        System.out.println(colorText.toRed("You need to specify the correct index of the task "
+        System.out.println(colorText.toRed("\nYou need to specify the correct index of the task "
                 + "you want to edit!\n"));
 
     }
@@ -244,7 +254,7 @@ public class AthenaUi implements Ui {
      * Prints a message telling user they did not input a command that is recognized by the program.
      */
     public void printInvalidCommandException() {
-        System.out.println(colorText.toRed("I know I'm really smart but even I don't know what "
+        System.out.println(colorText.toRed("\nI know I'm really smart but even I don't know what "
                 + "you're requesting. Maybe if you type ") + colorText.toYellow("help")
                 + colorText.toRed(", you can see what the valid commands are.\n"));
     }
@@ -253,24 +263,41 @@ public class AthenaUi implements Ui {
      * Prints a message telling user their task list is empty.
      */
     public void printEmptyTaskListException() {
-        System.out.println(colorText.toRed("You don't have any tasks in your list! You should probably add some in if "
-                + "you want to be productive.\n"));
+        System.out.println(colorText.toRed("\nYou don't have any tasks in your list! "
+                + "You should probably add some in if you want to be productive.\n"));
     }
 
     /**
      * Prints a message telling user there's a clash with this task.
      */
     public void printClashInTaskException() {
-        System.out.println(colorText.toRed("There's a clash in this task, please choose a difference time or date"));
+        System.out.println(colorText.toRed("\nThere's a clash in this task, please choose a difference time or date."));
+    }
+
+    /**
+     * Prints a message telling user they've entered an invalid importance.
+     */
+    public void printInvalidImportanceException() {
+        System.out.println(colorText.toRed("You have entered an invalid importance. "
+                + "Please choose from high, medium, or low"));
+    }
+
+    /**
+     * Prints a message telling user they've entered an invalid forecast.
+     */
+    public void printInvalidForecastException() {
+        System.out.println(colorText.toRed("You have entered an invalid forecast. "
+                + "Please choose from day, week, or all"));
     }
 
     /**
      * Prints a message when the user chooses to exit the program.
      */
     public void printExitMessage() {
-        System.out.println(colorText.toPurple("Going so soon? Well I'll be here the next time you need me. "
+        System.out.println(colorText.toPurple("\nGoing so soon? Well I'll be here the next time you need me. "
                 + "Farewell!\n"));
     }
+
 
     /**
      * Prints the timetable.
@@ -282,14 +309,17 @@ public class AthenaUi implements Ui {
     }
 
     public void printStorageLoadFail() {
-        System.out.println("Storage loading has failed\n");
+        System.out.println(colorText.toRed("\nStorage loading has failed.\n"));
     }
 
     public void printCorruptedLine(String corruptedLine) {
-        System.out.println("This task is invalid: " + corruptedLine + "\nPlease remove externally to continue\n");
+        System.out.println(colorText.toRed("\nThis task is invalid: " + corruptedLine + ".\n"
+                + "\nPlease remove externally to continue.\n"));
     }
 
     public void printAllocationFailed() {
-        System.out.println("Allocation Failed \n");
+        System.out.println(colorText.toRed("\nAllocation Failed.\n"));
     }
+
+
 }

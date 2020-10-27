@@ -1,0 +1,48 @@
+title LOAD
+
+
+actor Athena
+Athena->+Storage: loadTaskListData()
+
+Storage->+*TaskList:
+TaskList-->Storage:
+deactivate TaskList
+
+Storage->+Importance: valueOf()
+Importance-->Storage:
+deactivate Importance
+
+Storage->TaskList: addTask()
+activate TaskList
+TaskList->-TaskList: createTask()
+activate TaskList
+TaskList->-TaskList: decrementMaxNumber()
+activate TaskList
+TaskList->-TaskList:checkClash()
+activate TaskList
+TaskList->-TaskList:updateMaxNumber()
+activate TaskList
+
+TaskList-->-Storage:
+
+
+
+Storage->TaskList:markTaskAsDone()
+activate TaskList
+TaskList->TaskList: getTaskFromNumber()
+activate TaskList
+deactivate TaskList
+TaskList->Task: setDone()
+activate Task
+Task-->-TaskList:
+TaskList-->Storage:
+
+Storage->*StorageCorruptedException:
+activate StorageCorruptedException
+StorageCorruptedException-->-Storage:
+destroy StorageCorruptedException
+
+
+
+
+Storage-->Athena:loadedTaskList

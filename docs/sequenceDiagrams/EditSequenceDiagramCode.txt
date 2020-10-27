@@ -1,0 +1,23 @@
+title Edit
+
+EditCommand->+TaskList: editTask()
+activate EditCommand
+
+TaskList->TaskList: getTaskFromNumber()
+activate TaskList
+deactivate TaskList
+
+TaskList->-TaskList: createTask()
+activate TaskList
+TaskList->*Task:
+activate Task
+deactivate Task
+
+TaskList->TaskList: checkClash(possibleEditedTask)
+activate TaskList
+deactivate TaskList
+
+TaskList->+Task: edit()
+Task-->-TaskList:
+TaskList-->-EditCommand:
+deactivate TaskList

@@ -1,0 +1,41 @@
+title TimeAllocator
+
+actor ATHENA
+
+ATHENA->*TimeAllocator:
+activate TimeAllocator
+
+TimeAllocator->*FlexibleTimeFilter:
+activate FlexibleTimeFilter
+FlexibleTimeFilter-->-TimeAllocator:
+destroy FlexibleTimeFilter
+
+TimeAllocator->TaskList: getFilteredList()
+activate TaskList
+TaskList->TaskFilter:
+activate TaskFilter
+TaskFilter-->TaskList:
+destroy TaskFilter
+TaskList->ForecastFilter: removeExcludedDates()
+activate ForecastFilter
+ForecastFilter->Task: getClone()
+activate Task
+Task-->-ForecastFilter:
+ForecastFilter->Task:getDates()
+activate Task
+Task-->-ForecastFilter:
+ForecastFilter->-ForecastFilter: isDateIncluded()
+activate ForecastFilter
+ForecastFilter->Task:removeDate()
+activate Task
+Task-->-ForecastFilter:
+destroy ForecastFilter
+TaskList->Task: getNumber()
+activate Task
+Task-->-TaskList:
+destroy Task
+TaskList-->-TimeAllocator:
+destroy TaskList
+
+
+TimeAllocator-->ATHENA:

@@ -1,0 +1,32 @@
+title List
+
+ListCommand->*ImportanceFilter:
+activate ListCommand
+activate ImportanceFilter
+ImportanceFilter-->ListCommand:
+destroy ImportanceFilter
+
+ListCommand->*ForecastFilter:
+activate ForecastFilter
+ForecastFilter-->ListCommand:
+deactivate ForecastFilter
+
+ListCommand->*Timetable:
+activate Timetable
+
+Timetable->+TaskList: getFilteredList()
+TaskList->+TaskFilter: isTaskIncluded()
+TaskFilter-->-TaskList:
+TaskList->+ForecastFilter: removeExcludedDates()
+ForecastFilter-->-TaskList:
+
+destroy ForecastFilter
+destroy TaskFilter
+
+TaskList-->-Timetable:
+
+Timetable->Timetable: populateTimetable()
+activate Timetable
+deactivate Timetable
+
+Timetable-->-ListCommand:

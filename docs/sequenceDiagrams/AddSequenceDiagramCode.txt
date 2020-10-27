@@ -1,0 +1,22 @@
+title Add
+
+AddCommand->+TaskList: addTask()
+activate AddCommand
+
+TaskList->TaskList: addTask()
+activate TaskList
+TaskList->TaskList: createTask()
+activate TaskList
+TaskList->*+Task:
+Task-->-TaskList:
+deactivate TaskList
+TaskList->TaskList: checkClash(task)
+activate TaskList
+deactivate TaskList
+TaskList->TaskList: updateMaxNumber(task)
+activate TaskList
+deactivate TaskList
+deactivate TaskList
+
+TaskList-->-AddCommand:
+deactivate TaskList

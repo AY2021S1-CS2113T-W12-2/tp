@@ -3,6 +3,7 @@ package athena.tasklist;
 import athena.Forecast;
 import athena.Importance;
 import athena.TaskList;
+import athena.common.utils.DateUtils;
 import athena.exceptions.ClashInTaskException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
@@ -153,13 +154,14 @@ class TaskListTest {
     }
 
     private TaskList getImportanceTestExpectedTasks(Importance importance) {
-        String todayDateString = LocalDate.now().toString();
+        String dateInWeek = DateUtils.formatDate(getDateInWeek());
+        String todayDateString = DateUtils.formatDate(LocalDate.now());
         TaskList taskList = new TaskList();
         Task task1 = new Task("uno", "1100",
                 "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", 0, false);
         Task task2 = new Task("dos", "1100",
-                "2", "16-09-2020", "23-10-2019", Importance.MEDIUM,
+                "2", "16-09-2020", dateInWeek, Importance.MEDIUM,
                 "Refer to slides", 1, false);
         Task task3 = new Task("tres", "1100",
                 "2", "16-09-2020", "13-11-2019", Importance.LOW,
@@ -176,13 +178,14 @@ class TaskListTest {
     }
 
     private TaskList getForecastTestExpectedTasks(Forecast forecast) {
-        String todayDateString = LocalDate.now().toString();
+        String dateInWeek = DateUtils.formatDate(getDateInWeek());
+        String todayDateString = DateUtils.formatDate(LocalDate.now());
         TaskList taskList = new TaskList();
         Task task1 = new Task("uno", "1100",
                 "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", 0, false);
         Task task2 = new Task("dos", "1100",
-                "2", "16-09-2020", "23-10-2019", Importance.MEDIUM,
+                "2", "16-09-2020", dateInWeek, Importance.MEDIUM,
                 "Refer to slides", 1, false);
         Task task3 = new Task("tres", "1100",
                 "2", "16-09-2020", "13-11-2019", Importance.LOW,
@@ -203,17 +206,26 @@ class TaskListTest {
 
 
     private void setupTestTaskList() {
-        String todayDateString = LocalDate.now().toString();
+        String dateInWeek = DateUtils.formatDate(getDateInWeek());
+        String todayDateString = DateUtils.formatDate(LocalDate.now());
         testTaskList = new TaskList();
         int index = 0;
         testTaskList.addTask(new Task("uno", "1100",
                 "2", todayDateString, todayDateString, Importance.HIGH,
                 "Refer to slides", index++, false));
         testTaskList.addTask(new Task("dos", "1100",
-                "2", "16-09-2020", "23-10-2019", Importance.MEDIUM,
+                "2", "16-09-2020", dateInWeek, Importance.MEDIUM,
                 "Refer to slides", index++, false));
         testTaskList.addTask(new Task("tres", "1100",
                 "2", "16-09-2020", "13-11-2019", Importance.LOW,
                 "Refer to slides", index++, false));
+    }
+
+    private LocalDate getDateInWeek() {
+        LocalDate date = DateUtils.getFirstDayOfWeek();
+        if (date.equals(LocalDate.now())) {
+            date = date.plusDays(1);
+        }
+        return date;
     }
 }

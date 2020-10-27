@@ -7,6 +7,7 @@ import athena.exceptions.StorageException;
 import athena.exceptions.StorageLoadFailException;
 import athena.exceptions.TaskNotFoundException;
 import athena.task.Task;
+import athena.task.Time;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -51,11 +52,12 @@ public class Storage {
         try {
             FileWriter csvWriter = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {
+                Time timeInfo = task.getTimeInfo();
                 taskString = replaceCommas(task.getName()) + ","
-                        + replaceCommas(task.getTimeInfo().getStartTimeString()) + ","
-                        + replaceCommas(task.getTimeInfo().getDurationString()) + ","
-                        + replaceCommas(task.getTimeInfo().getDeadline()) + ","
-                        + replaceCommas(task.getTimeInfo().getRecurrence()) + "," + task.getImportance() + ","
+                        + replaceCommas(timeInfo.getStartTimeString()) + ","
+                        + replaceCommas(timeInfo.getDurationString()) + ","
+                        + replaceCommas(timeInfo.getDeadline()) + ","
+                        + replaceCommas(timeInfo.getRecurrence()) + "," + task.getImportance() + ","
                         + replaceCommas(task.getNotes()) + "," + task.getNumber();
                 if (task.isDone()) {
                     taskString = taskString + "," + "true";

@@ -1,0 +1,84 @@
+title Save
+
+
+actor Athena
+Athena->+Storage: saveTaskListData()
+
+Storage->+Tasklist: getTasks()
+Tasklist-->Storage:
+deactivate Tasklist
+
+Storage->+Task: getTimeInfo()
+Task-->Storage:
+deactivate Task
+
+Storage->+Task: getName()
+Task-->Storage:
+deactivate Task
+
+Storage->Storage: replaceCommas()
+activate Storage
+deactivate Storage
+
+
+Storage->+Time:getStartTimeString()
+Time-->Storage:
+deactivate Time
+
+Storage->Storage: replaceCommas()
+activate Storage
+deactivate Storage
+
+
+Storage->+Time: getDurationString()
+Time-->Storage:
+deactivate Time
+
+Storage->Storage: replaceCommas()
+activate Storage
+deactivate Storage
+
+
+Storage->+Time:getDeadline()
+Time-->Storage:
+deactivate Time
+
+Storage->Storage: replaceCommas()
+activate Storage
+deactivate Storage
+
+
+Storage->+Time:getRecurrence()
+Time-->Storage:
+deactivate Time
+
+Storage->Storage: replaceCommas()
+activate Storage
+deactivate Storage
+
+Storage->+Task: getImportance()
+Task-->Storage:
+deactivate Task
+
+Storage->+Task: getNotes()
+Task-->Storage:
+deactivate Task
+
+
+Storage->Storage: replaceCommas()
+activate Storage
+deactivate Storage
+
+Storage->+Task: getNumber()
+Task-->Storage:
+deactivate Task
+
+Storage->+Task: isDone()
+Task-->Storage:
+deactivate Task
+
+Storage->+Task: isFlexible()
+Task-->Storage:
+deactivate Task
+
+Storage-->Athena:

@@ -52,7 +52,8 @@ public class TimeAllocator {
                 }
             }
             ArrayList<Task> carryOverTasks = new ArrayList<Task>();
-            int start = 0;
+
+            int start = 8;
             int sleep = 24;
             boolean done = false;
             while (!done) {
