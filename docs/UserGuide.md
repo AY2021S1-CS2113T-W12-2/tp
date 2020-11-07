@@ -414,7 +414,10 @@ You should expect to see a message to confirm that the time of task with `TASK-I
 ### Delete task: `delete` or `dl`
 Deletes the specified task from the planner. ATHENA will ensure to leave the index of other tasks untouched.
 
-#### Usage
+* [Basic Usage (delete)](#basic-usage-delete) (For users new to command line applications)
+* [Intermediate Usage (delete)](#intermediate-usage-delete) (For users comfortable with command line applications)
+
+#### Basic Usage (delete)
 
 ##### Command Format
 
@@ -423,27 +426,46 @@ Deletes the specified task from the planner. ATHENA will ensure to leave the ind
 ##### Parameters
 The `delete` command requires 1 parameter only.
 
-* `TASK-ID` refers to the number shown beside the task that the user wants to delete in the displayed task list. 
-It must be a non-negative integer.
+* `TASK-ID` refers to the number shown beside the task that the user wants to delete in the displayed task list. It must be a non-negative integer.
 
 ##### Example Usage
 
-The following shows the output from ATHENA after entering `delete 1`.
-You should expect to see a message to confirm that the task is deleted. 
+Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be deleted.
+The following shows the output from ATHENA after entering `delete 0`.
+You should expect to see a message to confirm that the task with `TASK-ID` of `0` is deleted. 
 ATHENA also prints the command required to restore the deleted task.
 
+*SCREENSHOT*
 
-![delete command screenshot](screenshots/athena%20delete.jpg)
+#### Intermediate Usage (delete)
+The `delete` command supports shortcuts for intermediate users.
+
+##### Supported Shortcuts
+
+The following commands on the left will be expanded to the corresponding commands on the right.
+
+| Shortcut | Expanded command |
+|----------|------------------|
+| `dl`     | `delete`  |
+
+##### Example usage
+
+Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be deleted.
+
+The user can just type `dl` instead of `delete`.
+The following shows the output from ATHENA after entering `dl 0`.
+
+*insert screenshot*
 
 
 ### View task: `view` or `v`
 Views the specified task details from the planner.
 The guide for this command is split into three sections:
 
-* [Basic Usage](#basic-usage) (For users new to command line applications)
-* [Intermediate Usage](#intermediate-usage) (For users comfortable with command line applications)
+* [Basic Usage (view)](#basic-usage-view) (For users new to command line applications)
+* [Intermediate Usage (view)](#intermediate-usage-view) (For users comfortable with command line applications)
 
-#### Basic Usage
+#### Basic Usage (view)
 
 ##### Command Format
 
@@ -462,7 +484,7 @@ You should expect to see the details of your task with `TASK-ID` of `0`.
 
 *SCREENSHOT*
 
-#### Intermediate Usage
+#### Intermediate Usage (view)
 The `view` command supports shortcuts for intermediate users.
 
 ##### Supported Shortcuts
@@ -475,7 +497,7 @@ The following commands on the left will be expanded to the corresponding command
 
 ##### Example usage
 
-Firstly, use [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be edited.
+Firstly, use the [list command](#list-tasks-list-or-l) to get the `TASK-ID` of the task to be edited.
 
 The user can just type `v` instead of `view`.
 The following shows the output from ATHENA after entering `v 0`.
