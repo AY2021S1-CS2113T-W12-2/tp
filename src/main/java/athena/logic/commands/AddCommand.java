@@ -66,10 +66,10 @@ public class AddCommand extends Command {
             throw new AddMissingRequiredParametersException();
         }
         try {
-            taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
+            int id = taskList.addTask(taskName, taskStartTime, taskDuration, taskDeadline,
                     taskRecurrence, taskImportance, taskNotes, isTaskFlexible);
             athenaUi.printTaskAdded(taskName, taskStartTime, taskDuration, taskDeadline,
-                    taskRecurrence, taskImportance.toString(), taskNotes);
+                    taskRecurrence, taskImportance.toString(), taskNotes, id);
         } catch (NumberFormatException e) {
             throw new AddDateWrongFormatException();
         }

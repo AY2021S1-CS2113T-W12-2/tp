@@ -55,6 +55,18 @@ public class Athena {
         Scanner input = new Scanner(System.in);
 
         ColorText colorText = new ColorText();
+
+        System.out.println(colorText.toPurple("Could you tell me the link to your NUSMods timetable: "));
+        System.out.flush();
+
+        input.nextLine();
+
+        System.out.println("\n" + colorText.toPurple("Cool! I have loaded all your lessons in your timetable.") + "\n");
+        try {
+            logicManager.execute("list");
+        } catch(Exception e) {
+        }
+
         while (!isExit) {
             try {
                 allocator = new TimeAllocator(taskList);

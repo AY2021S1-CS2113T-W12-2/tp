@@ -123,12 +123,13 @@ public class TaskList {
      * @param importance Importance of task
      * @param notes      Additional notes of task
      */
-    public void addTask(String name, String startTime, String duration,
+    public int addTask(String name, String startTime, String duration,
                         String deadline, String recurrence,
                         Importance importance, String notes, Boolean isFlexible)
             throws ClashInTaskException, TaskDuringSleepTimeException {
         maxNumber++;
         addTask(maxNumber, name, startTime, duration, deadline, recurrence, importance, notes, isFlexible);
+        return maxNumber;
     }
 
     private void decrementMaxNumber() {

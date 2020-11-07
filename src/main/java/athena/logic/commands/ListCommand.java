@@ -42,6 +42,7 @@ public class ListCommand extends Command {
             throw new EmptyTaskListException();
         }
         Timetable timetable = new Timetable(taskList, taskImportance, taskForecast);
+        System.out.println("\n");
         athenaUi.printTimetable(timetable);
     }
 

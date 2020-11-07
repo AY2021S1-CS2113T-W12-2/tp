@@ -48,7 +48,7 @@ public class AthenaUi implements Ui {
      * @param taskNotes      Any additional notes the user has added to the task
      */
     public void printTaskAdded(String taskName, String taskStartTime, String taskDuration, String taskDeadline,
-                               String taskRecurrence, String taskImportance, String taskNotes) {
+                               String taskRecurrence, String taskImportance, String taskNotes, int id) {
         System.out.print("\nYou've successfully added " + colorText.toBlue(taskName) + " to your list!\n"
                 + "It will start at " + colorText.toBlue(taskStartTime));
 
@@ -71,6 +71,8 @@ public class AthenaUi implements Ui {
         System.out.println(" and has an importance of " + colorText.toBlue(taskImportance) + ".\n"
                 + "Additionally, you've also added these notes!\n" + colorText.toBlue(taskNotes) + ".\n"
                 + "Looks like another mission to complete! Let's do it!\n");
+
+        System.out.println("If you decide to edit or mark this task as done, the task ID is " + colorText.toBlue("" + id) + ".\n");
     }
 
     /**

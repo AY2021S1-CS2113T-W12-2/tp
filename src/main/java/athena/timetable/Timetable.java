@@ -29,7 +29,7 @@ public class Timetable {
     public static final String TASK_NUMBER_LABEL = "[%d]";
     public static final String DAY_BOX = "|  %s  |";
     public static final String EMPTY_TASK_BOX = "          |";
-    public static final String TASK_BOX = " %s|";
+    public static final String TASK_BOX = " %s";
 
     private TaskList taskList;
     private ArrayList<TimetableDay> timetableDays;
@@ -257,7 +257,18 @@ public class Timetable {
             hour += duration - 1;
             int boxWidth = duration * (TASK_BOX_HORIZONTAL_BORDER + BOX_CORNER).length() - 2;
             String taskInfo = shortenOrPadString(taskInfoWriter.apply(task), boxWidth);
-            row += String.format(TASK_BOX, colorText.toBlue(taskInfo));
+            String taskString = String.format(TASK_BOX, taskInfo);
+            if (task.getNumber() == 12)
+                taskString = colorText.bgRed(taskString);
+            else if (task.getNumber() == 18)
+                taskString = colorText.bgGreen(taskString);
+            else if (task.getNumber() > 18)
+                taskString = colorText.bgWhite(taskString);
+            else if (task.isFlexible() || task.getNumber() >= 13)
+                taskString = colorText.bgOrange(taskString);
+            else
+                taskString = colorText.bgBlue(taskString);
+            row += taskString + "|";
         }
 
         return row;
@@ -379,8 +390,8 @@ public class Timetable {
     public String toString() {
         ArrayList<LocalDate> dates = DateUtils.getDatesBasedOnForecast(forecast);
         String output = drawTimetable(dates);
-        output += "\n";
-        output += getTaskListString(dates);
+//        output += "\n";
+//       output += getTaskListString(dates);
 
         return output.trim() + "\n";
     }

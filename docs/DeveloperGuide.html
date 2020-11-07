@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DeveloperGuide.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="developer-guide">Developer Guide</h1>
+<h2 id="design--implementation"><strong>Design &amp; implementation</strong></h2>
+<h3 id="architecture">Architecture</h3>
+<p>The <em><strong>Architecture Diagram</strong></em> given above explains the high-level design of the ATHENA. Given below is a quick overview of each component.</p>
+<p><strong><code>Main</code></strong> has one class called <a href="https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Athena.java"><code>Athena</code></a>. It is responsible for,</p>
+<ul>
+<li>At app launch: Initializes the components and connects them up with each other.</li>
+<li>At app shut down: Shuts down the components.</li>
+</ul>
+<p>The rest of the App consists of these components.</p>
+<ul>
+<li><a href="#ui-component"><strong><code>Ui</code></strong></a>: The UI of ATHENA.</li>
+<li><a href="#parser-component"><strong><code>Parser</code></strong></a>: Parses user input and command executor.</li>
+<li><a href="#tasklist-component"><strong><code>TaskList</code></strong></a>: The list that stores the user's tasks.</li>
+<li><a href="#storage-component"><strong><code>Storage</code></strong></a>: Reads data from, and writes data to, the hard disk.</li>
+</ul>
+<h3 id="ui-component">UI component</h3>
+<p><strong>API</strong> :
+<a href="https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Ui.java"><code>Ui.java</code></a></p>
+<h3 id="parser-component">Parser component</h3>
+<p><strong>API</strong> :
+<a href="https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Parser.java"><code>Parser.java</code></a></p>
+<h3 id="tasklist-component">TaskList component</h3>
+<p><img src="https://raw.githubusercontent.com/wish2023/tp/DG-tasklist/docs/structures/TaskListStructure.png" alt="TaskListStructure"></p>
+<p><strong>API</strong> :
+<a href="https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/TaskList.java"><code>TaskList.java</code></a></p>
+<ol>
+<li>The <code>TaskList</code> stores task data in <code>Task</code> type objects.</li>
+<li>The <code>TaskList</code> is updated in <code>Athena</code>.</li>
+<li>A new <code>Task</code> object is created everytime the user uses the command <code>add</code>.</li>
+</ol>
+<h3 id="storage-component">Storage component</h3>
+<p><strong>API</strong> :
+<a href="https://github.com/AY2021S1-CS2113T-W12-2/tp/blob/master/src/main/java/athena/Storage.java"><code>Storage.java</code></a></p>
+<hr>
+<h2 id="other-guides-documentation-logging-testing-configuration-dev-ops"><strong>Other Guides: Documentation, logging, testing, configuration, dev-ops</strong></h2>
+<p>This section contains links to other relevant guides.</p>
+<ul>
+<li><a href="./Documentation.md">Documentation guide</a></li>
+<li><a href="./Testing.md">Testing guide</a></li>
+<li><a href="./DevOps.md">DevOps guide</a></li>
+</ul>
+<hr>
+<h2 id="implementation"><strong>Implementation</strong></h2>
+<p>This section describes some noteworthy details on how certain features are implemented.</p>
+<h3 id="time-allocation-to-task-in-timetable">Time allocation to task in timetable</h3>
+<p>The time allocation mechanism is facilitated by <code>TimeAllocator</code>. It allocates time slots to <code>Task</code>s in a <code>TaskList</code> that are not assigned a fixed time slot by the user. It implements the following operations:</p>
+<ul>
+<li>Work in progress hehe</li>
+</ul>
+<p>Given below is an example usage scenario and how the allocation mechanism behaves at each step.</p>
+<p><strong>Step 1</strong>. The user launches the application. The <em>data.csv</em> file located next to the application jar file contains 5 tasks. These tasks are loaded into the <code>TaskList</code>. 3 of them have a fixed time slot, while the other 2 are not assigned any time slot.</p>
+<p><strong>Step 2.</strong> The user executes <code>list</code> to get an overview of the week. The user sees the 3 tasks with a fixed time slot in the printed timetable.</p>
+<p><strong>Step 3</strong>. The user executes <code>allocate</code> to let the application allocate time slots to <code>Task</code>s without a fixed time slot.</p>
+<p><code>TimeAllocator</code> iterates through the <code>TaskList</code>, and checks whether a <code>Task</code> has a fixed time slot or should be allocated by the application to an empty slot. Tasks that have a fixed slot are added to a <code>fixedTaskList</code>, while the rest are added to a <code>flexibleTaskList</code>. The <code>Task</code>s in the <code>flexibleTaskList</code> are sorted based on their <code>importance</code> and <code>deadline</code>. Finally, the <code>TimeAllocator</code> iterates through the <code>fixedTaskList</code> to find empty time slots in a day, which is then allocated to the <code>Task</code>s in the sorted <code>flexibleTaskList</code>.</p>
+<p>The following sequence diagram illustrates how the allocate operation works:</p>
+<p><em>Work in progress</em></p>
+<p><strong>Step 4.</strong> The user executes <code>list</code> to get an overview of the week. The user sees all 5 tasks in the printed timetable.</p>
+<h3 id="data-storage">Data storage</h3>
+<p>The storage mechanism is facilitated by <code>Storage</code>. It reads and writes the <code>Task</code>s in a <code>TaskList</code> to <code>data.csv</code>, a csv file located next to the application jar file.
+It implements the following operations:</p>
+<ul>
+<li><code>Storage#saveTaskListData</code> - Writes the current tasks into the save file.</li>
+<li><code>Storage#loadTaskListData</code> - Loads the tasks in the save file into the application.</li>
+</ul>
+<p>These operations are called by the <code>LogicManager</code>.</p>
+<p>Given below is an example usage scenario and how the storage mechanism behaves at each step.</p>
+<p><strong>Step 1.</strong> The user launches the application for the first time. The <code>TaskList</code> is initialized to be empty. At this time, there is no <em>data.csv</em> file present. So, when <code>Storage</code> calls <code>Storage#loadTaskListData</code>, this is detected and an empty <em>data.csv</em> file is created next to the jar file. Since there was no save file, the <code>TaskList</code> remains empty.</p>
+<p><strong>Step 2.</strong> The user adds a task to the application, by executing <code>add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes</code>. The <code>TaskList</code> now contains 1 task (Assignment 1). After the command is executed, <code>LogicManager</code> calls <code>Storage#saveTaskListData</code> to automatically save the tasks in the <code>TaskList</code> into the save file.</p>
+<p><strong>Step 3.</strong> The user closes the application. Nothing happens since the data in the <code>TaskList</code> is already saved.</p>
+<p><strong>Step 4.</strong> The user launches the application again. The <code>TaskList</code> is initialized to be empty. <code>Storage#loadTaskListData</code> will read from <code>data.csv</code> and add the tasks inside the file into the empty <code>TaskList</code>. The <code>TaskList</code> now contains the task added earlier (Assignment 1) in <strong>step 3</strong>.</p>
+<p><strong>Step 5.</strong> The user executes <code>list</code> to get an overview of the week. The user sees <em>Assignment 1</em> in the printed timetable.</p>
+<hr>
+<h2 id="appendix-requirements">Appendix: Requirements</h2>
+<h2 id="product-scope">Product scope</h2>
+<h3 id="target-user-profile">Target user profile</h3>
+<ul>
+<li>is a university student</li>
+<li>has a need to manage a significant number of tasks</li>
+<li>can type fast and prefers typing to mouse interactions</li>
+<li>is comfortable using the command line interface</li>
+</ul>
+<h4 id="value-proposition">Value proposition</h4>
+<ul>
+<li>ATHENA helps students to automate the process of organising their schedule. After the user inputs pre-allocated time slots for work and relaxation, ATHENA figures out the best theoretical timetable based on the user’s needs.</li>
+<li>It can be updated anytime during the week.</li>
+<li>ATHENA helps to reduce the amount of time and effort that users need to spend planning their time by finding free spaces to slot tasks in, with the goal of reducing dead space in the user’s timetable.</li>
+<li>The planner will also make sure the user has enough time to eat, exercise and sleep. The user can set up ATHENA to follow a fixed weekly routine, and only needs to update a task list. ATHENA will then plan the timetable based on the importance and deadlines of the tasks in the list, making sure that the user is able to finish everything on time.</li>
+</ul>
+<h3 id="user-stories">User Stories</h3>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>As a ...</th>
+<th>I want to ...</th>
+<th>So that I ...</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>v1.0</code></td>
+<td>forgetful student</td>
+<td>upload my tasks for the week</td>
+<td>remember to do them</td>
+</tr>
+<tr>
+<td><code>v1.0</code></td>
+<td>student</td>
+<td>mark my tasks as done</td>
+<td>know that I have done them and can put them aside</td>
+</tr>
+<tr>
+<td><code>v1.0</code></td>
+<td>student</td>
+<td>get reminded to do the tasks that are due soon</td>
+<td>will be on time</td>
+</tr>
+<tr>
+<td><code>v1.0</code></td>
+<td>student</td>
+<td>edit the tasks I added</td>
+<td>update accordingly to small changes</td>
+</tr>
+<tr>
+<td><code>v1.0</code></td>
+<td>student</td>
+<td>delete the tasks I added</td>
+<td>remove tasks that are not needed to do anymore</td>
+</tr>
+<tr>
+<td><code>v1.0</code></td>
+<td>student</td>
+<td>set my task according to importance</td>
+<td>complete the more important tasks first</td>
+</tr>
+<tr>
+<td><code>v1.0</code></td>
+<td>student</td>
+<td>leave some notes for a task</td>
+<td>remember about it</td>
+</tr>
+<tr>
+<td><code>v2.0</code></td>
+<td>student</td>
+<td>have a planner that tells me what time to rest</td>
+<td>don’t exhaust myself</td>
+</tr>
+<tr>
+<td><code>v2.0</code></td>
+<td>student</td>
+<td>see an overview of the week ahead</td>
+<td>make sure that I am staying on top of my tasks</td>
+</tr>
+<tr>
+<td><code>v2.0</code></td>
+<td>busy student</td>
+<td>know what tasks to work on next</td>
+<td>don’t need to spend time planning</td>
+</tr>
+</tbody>
+</table>
+<h3 id="non-functional-requirements">Non-Functional Requirements</h3>
+<ol>
+<li>Should work on any <em>mainstream OS</em> as long as it has Java <code>11</code> installed.</li>
+<li>A user with above average typing speed for regular English text should be able to use the features of ATHENA faster using commands than using the mouse.</li>
+</ol>
+<h3 id="glossary">Glossary</h3>
+<ul>
+<li><strong>Mainstream OS</strong>: Windows, Linux, Unix, OS-X</li>
+</ul>
+<h3 id="instructions-for-manual-testing">Instructions for manual testing</h3>
+<p>Given below are instructions to test the app manually.</p>
+<h4 id="launch-and-shutdown">Launch and shutdown</h4>
+<ol>
+<li>
+<p>Initial launch</p>
+<ol>
+<li>
+<p>Download the jar file and copy into an empty folder</p>
+</li>
+<li>
+<p>Double-click the jar file Expected: Shows the command line interface with welcome message.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Shutdown ATHENA</p>
+<ol>
+<li>Test case: <code>exit</code><br>
+Expected: A farewell message by ATHENA will be shown.</li>
+</ol>
+</li>
+</ol>
+<h4 id="adding-a-task">Adding a task</h4>
+<p>Adding a task to the list.</p>
+<ol>
+<li>
+<p>Test case: <code>add n/Assignment1 t/1100 D/16-09-2020 d/2 r/Today i/high a/Refer to lecture notes</code><br>
+Expected: First task is added to the list. Details of the added task is shown.</p>
+</li>
+<li>
+<p>Test case: <code>add t/1100 D/16-09-2020</code><br>
+Expected: No task is added. Error details is shown.</p>
+</li>
+</ol>
+<h4 id="deleting-a-task">Deleting a task</h4>
+<p>Deleting a task while all tasks are shown.</p>
+<ol>
+<li>
+<p>Prerequisites: List all tasks using the <code>list</code> command.</p>
+</li>
+<li>
+<p>Test case: <code>delete 1</code><br>
+Expected: Task with index 1 is deleted from the list. Details of the deleted task is shown.</p>
+</li>
+<li>
+<p>Test case: <code>delete -1</code><br>
+Expected: No task is deleted. Error details is shown.</p>
+</li>
+<li>
+<p>Other incorrect delete commands to try: <code>delete</code>, <code>delete x</code> (where x is larger than the list size)<br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+<h4 id="marking-a-task-as-done">Marking a task as done</h4>
+<p>Marking a task as done while all tasks are shown.</p>
+<ol>
+<li>
+<p>Prerequisites: List all tasks using the <code>list</code> command.</p>
+</li>
+<li>
+<p>Test case: <code>done 1</code><br>
+Expected: Task with index 1 is marked as done in the list. Details of the task is shown.</p>
+</li>
+<li>
+<p>Test case: <code>done -1</code><br>
+Expected: No task is marked as done. Error details is shown.</p>
+</li>
+<li>
+<p>Other incorrect delete commands to try: <code>done</code>, <code>done x</code> (where x is larger than the list size)<br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+<h4 id="viewing-the-full-details-of-a-task">Viewing the full details of a task</h4>
+<p>Viewing a task details while all tasks are shown.</p>
+<ol>
+<li>
+<p>Prerequisites: List all tasks using the <code>list</code> command.</p>
+</li>
+<li>
+<p>Test case: <code>view 1</code><br>
+Expected: Details of the task with index 1 in the list is shown.</p>
+</li>
+<li>
+<p>Test case: <code>view -1</code><br>
+Expected: No task details is shown. Error details is shown.</p>
+</li>
+<li>
+<p>Other incorrect delete commands to try: <code>view</code>, <code>view x</code> (where x is larger than the list size)<br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+<h4 id="editing-a-task">Editing a task</h4>
+<p>Editing a task details while all tasks are shown.</p>
+<ol>
+<li>
+<p>Prerequisites: List all tasks using the <code>list</code> command.</p>
+</li>
+<li>
+<p>Test case: <code>edit 1 n/new name</code><br>
+Expected: Name of the task with index 1 in the list will be changed to <code>new name</code>.</p>
+</li>
+<li>
+<p>Test case: <code>edit -1</code><br>
+Expected: No task will be edited. Error details is shown.</p>
+</li>
+<li>
+<p>Other incorrect delete commands to try: <code>edit</code>, <code>edit x</code> (where x is larger than the list size)<br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+<h4 id="listing-all-tasks">Listing all tasks</h4>
+<p>Listing all the tasks with or without filters.</p>
+<ol>
+<li>
+<p>Test case: <code>list</code><br>
+Expected: All the tasks will be listed.</p>
+</li>
+<li>
+<p>Test case: <code>list i/HIGH f/TODAY</code><br>
+Expected: All the tasks today with high importance will be shown.</p>
+</li>
+</ol>
+<h4 id="help">Help</h4>
+<p>Guide on the use of ATHENA.</p>
+<ol>
+<li>Test case: <code>help</code><br>
+Expected: A guide on how to use ATHENA will be shown.</li>
+</ol>
+<h4 id="data-storage">Data storage</h4>
+<p>Storage of user data (e.g. tasks).</p>
+<ol>
+<li>
+<p>Dealing with corrupted data files</p>
+<ol>
+<li>
+<p>Open data.csv located next to Athena.jar.</p>
+</li>
+<li>
+<p>Test case (If the file is not empty): Add <code>,aaaa</code> at the end of the first line.</p>
+<p>Expected: The task on that line is corrupted. When you launch Athena again, it will fail to start, while providing an error message to the user.</p>
+</li>
+<li>
+<p>Test case (If the file is not empty): Remove a comma (<code>,</code>) from the file.</p>
+<p>Expected: The task on that line is corrupted. When you launch Athena again, it will fail to start, while providing an error message to the user.</p>
+</li>
+<li>
+<p>Test case: Add <code>aaaaa</code> at the end of the file.</p>
+<p>Expected: An invalid task is added. When you launch Athena again, it will fail to start, while providing an error message to the user.</p>
+</li>
+</ol>
+</li>
+</ol>
+
+</body>
+</html>

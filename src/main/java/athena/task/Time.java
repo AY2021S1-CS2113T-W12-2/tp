@@ -27,6 +27,8 @@ public class Time implements Comparable<Time> {
     private LocalTime endTime;
     private String deadline;
 
+    public boolean isRecurring;
+
     private String recurrence;
     private ArrayList<LocalDate> recurrenceDates = new ArrayList<>();
 
@@ -42,6 +44,7 @@ public class Time implements Comparable<Time> {
         this.duration = duration;
         this.deadline = deadline;
         this.recurrence = recurrence;
+        if (this.startTime != null)
         this.endTime = startTime.plusHours(duration);
         setRecurrence(recurrence);
     }
@@ -71,6 +74,7 @@ public class Time implements Comparable<Time> {
     }
 
     public void setRecurrence(String recurrence) {
+        isRecurring = false;
         switch (recurrence.toUpperCase()) {
         case "TODAY":
             recurrenceDates.add(LocalDate.now());
@@ -78,30 +82,37 @@ public class Time implements Comparable<Time> {
         case "MONDAY":
             LocalDate mondayDate = getFirstDateMatchingDay(DayOfWeek.MONDAY);
             addDates(mondayDate);
+            isRecurring = true;
             break;
         case "TUESDAY":
             LocalDate tuesdayDate = getFirstDateMatchingDay(DayOfWeek.TUESDAY);
             addDates(tuesdayDate);
+            isRecurring = true;
             break;
         case "WEDNESDAY":
             LocalDate wednesdayDate = getFirstDateMatchingDay(DayOfWeek.WEDNESDAY);
             addDates(wednesdayDate);
+            isRecurring = true;
             break;
         case "THURSDAY":
             LocalDate thursdayDate = getFirstDateMatchingDay(DayOfWeek.THURSDAY);
             addDates(thursdayDate);
+            isRecurring = true;
             break;
         case "FRIDAY":
             LocalDate fridayDate = getFirstDateMatchingDay(DayOfWeek.FRIDAY);
             addDates(fridayDate);
+            isRecurring = true;
             break;
         case "SATURDAY":
             LocalDate saturdayDate = getFirstDateMatchingDay(DayOfWeek.SATURDAY);
             addDates(saturdayDate);
+            isRecurring = true;
             break;
         case "SUNDAY":
             LocalDate sundayDate = getFirstDateMatchingDay(DayOfWeek.SUNDAY);
             addDates(sundayDate);
+            isRecurring = true;
             break;
         default:
             try {
@@ -127,7 +138,7 @@ public class Time implements Comparable<Time> {
             if (startDate.getDayOfWeek().equals(dayOfWeek)) {
                 break;
             } else {
-                startDate = startDate.plusDays(1);
+                startDate = startDate.minusDays(1);
             }
         }
         return startDate;
@@ -157,7 +168,7 @@ public class Time implements Comparable<Time> {
     }
 
     private int getYear(String recurrence) {
-        LocalDate currentDate = LocalDate.now();
+        LocalDate currentDate = LocalDate.now().minusDays(2);
         int month = getMonth(recurrence);
         int day = getDay(recurrence);
         int year;
@@ -165,7 +176,7 @@ public class Time implements Comparable<Time> {
             year = currentDate.getYear() + 1;
         } else if (currentDate.getMonthValue() == month && currentDate.getDayOfMonth() > day) {
             System.out.println("Hello!");
-            year = currentDate.getYear() + 1;
+            year = 2020;
         } else {
             year = currentDate.getYear();
         }

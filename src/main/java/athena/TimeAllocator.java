@@ -38,7 +38,7 @@ public class TimeAllocator {
      * Calls the best arrangement for slot
      */
     public void runAllocate() {
-        LocalDate currDay = LocalDate.now();
+        LocalDate currDay = LocalDate.now().minusDays(2);
         ForecastFilter forecast = new ForecastFilter(Forecast.DAY);
         ArrayList<Task> undefinedTimeTasks = getSortedFlexibleTasks(this.flexibleTaskList);
         for (int day = 0; day < 31; day++) {
@@ -54,7 +54,7 @@ public class TimeAllocator {
             ArrayList<Task> carryOverTasks = new ArrayList<Task>();
 
             int start = 8;
-            int sleep = 24;
+            int sleep = 22;
             boolean done = false;
             while (!done) {
                 int pos = start;
@@ -222,16 +222,16 @@ public class TimeAllocator {
     private ArrayList<Task> getSortedFixedTasks(TaskList taskList) {
         TaskList fixedDayTasks = taskList;
         ArrayList<Task> sortedTimeTasks = fixedDayTasks.getTasks();
-        sortedTimeTasks.sort(new TaskTimeComparator());
         sortedTimeTasks.sort(new TaskImportanceComparator());
+        sortedTimeTasks.sort(new TaskTimeComparator());
         return sortedTimeTasks;
     }
 
     private ArrayList<Task> getSortedFlexibleTasks(TaskList taskList) {
         TaskList flexibleDayTasks = taskList;
         ArrayList<Task> sortedTimeTasks = flexibleDayTasks.getTasks();
-        sortedTimeTasks.sort(new TaskTimeComparator());
         sortedTimeTasks.sort(new TaskImportanceComparator());
+        sortedTimeTasks.sort(new TaskTimeComparator());
         return sortedTimeTasks;
     }
 

@@ -30,7 +30,7 @@ public interface Ui {
      * @param taskNotes      Any additional notes the user has added to the task
      */
     void printTaskAdded(String taskName, String taskStartTime, String taskDuration, String taskDeadline,
-                        String taskRecurrence, String taskImportance, String taskNotes);
+                        String taskRecurrence, String taskImportance, String taskNotes, int id);
 
     /**
      * Prints out a message verifying that the task the user specified has been marked as done.

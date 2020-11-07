@@ -66,9 +66,6 @@ public class ForecastFilter extends TaskFilter {
         Task taskCopy = task.getClone();
         ArrayList<LocalDate> datesToDelete = new ArrayList<>();
         for (LocalDate date : taskCopy.getDates()) {
-            if (!isDateIncluded(date)) {
-                datesToDelete.add(date);
-            }
         }
         for (LocalDate date : datesToDelete) {
             taskCopy.removeDate(date);
