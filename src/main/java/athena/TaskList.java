@@ -115,12 +115,12 @@ public class TaskList {
             throws ClashInTaskException, TaskDuringSleepTimeException, InvalidTimeFormatException,
             InvalidRecurrenceException, InvalidDeadlineException {
         try {
-            if (number < maxNumber) {
-                number = maxNumber;
+            if (number <= maxNumber) {
+                number = maxNumber + 1;
             }
             Task task = createTask(number, name, startTime,
                     duration, deadline, recurrence, importance, notes, isFlexible);
-            decrementMaxNumber();
+            //decrementMaxNumber();
             checkClash(task);
             updateMaxNumber(number);
             tasks.add(task);
