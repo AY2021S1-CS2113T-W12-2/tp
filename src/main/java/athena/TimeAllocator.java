@@ -2,6 +2,7 @@ package athena;
 
 import athena.exceptions.allocator.NoNextSlotException;
 import athena.exceptions.command.InvalidRecurrenceException;
+import athena.exceptions.command.TaskDuringSleepTimeException;
 import athena.exceptions.command.TaskNotFoundException;
 import athena.task.Task;
 import athena.task.Time;
@@ -47,6 +48,9 @@ public class TimeAllocator {
             dayLog.setFixedTasks(predefinedTimeTasks);
             ArrayList<Task> carryOverTasks = null;
             TimeSlot currSlot = new TimeSlot(dayLog);
+            if (day == 0) {
+                currSlot.setWake(LocalTime.now().getHour() + 1);
+            }
             while (true) {
                 try {
                     currSlot.findNextSlot();
@@ -86,7 +90,7 @@ public class TimeAllocator {
                 try {
                     Time timeInfo = this.taskList.getTaskFromNumber(taskNumber)
                             .getTimeInfo();
-                    timeInfo.setStartTime(LocalTime.of(pos + count, 0));
+                    timeInfo.setTime(LocalTime.of(pos + count, 0));
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM");
                     timeInfo.resetRecurrence();
                     timeInfo.setRecurrence(currDay.format(formatter));
@@ -94,15 +98,13 @@ public class TimeAllocator {
                     this.flexibleTaskList.deleteTask(taskNumber);
                 } catch (TaskNotFoundException e) {
                     //do nothing
-                } catch (InvalidRecurrenceException e) {
-                    //do nothing?
+                } catch (InvalidRecurrenceException | TaskDuringSleepTimeException e) {
+                    //do nothing
                 }
             }
             count++;
         }
     }
-
-
 
 
     private ArrayList<Task> getSortedFixedTasks(TaskList taskList) {
@@ -120,9 +122,6 @@ public class TimeAllocator {
         sortedTimeTasks.sort(new TaskImportanceComparator());
         return sortedTimeTasks;
     }
-
-
-
 
 
     private TaskList getFixedDayTasks(LocalDate date) {

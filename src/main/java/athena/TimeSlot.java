@@ -4,7 +4,7 @@ import athena.exceptions.allocator.NoNextSlotException;
 
 public class TimeSlot {
     private Log dayLog;
-    private final int wake = 8;
+    private int wake = 8;
     private final int sleep = 22;
     private int start = wake;
     private int end = wake;
@@ -37,5 +37,11 @@ public class TimeSlot {
 
     public int getEnd() {
         return end;
+    }
+
+    public void setWake(int wake) {
+        this.wake = wake;
+        this.start = wake;
+        this.end = wake;
     }
 }

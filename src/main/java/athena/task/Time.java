@@ -94,7 +94,7 @@ public class Time implements Comparable<Time> {
         setEndTime();
     }
 
-    private void setTime(LocalTime startTime) throws TaskDuringSleepTimeException {
+    public void setTime(LocalTime startTime) throws TaskDuringSleepTimeException {
         if (startTime != null) {
             this.startTime = startTime;
             setEndTime();
